@@ -26,7 +26,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.ramz.locationtracker.MainActivity;
 import com.ramz.locationtracker.R;
-import com.ramz.locationtracker.database.RecuriterDb;
+import com.ramz.locationtracker.database.LocationDb;
 import com.ramz.locationtracker.model.LocationInfo;
 import com.ramz.locationtracker.utils.AppPreferences;
 import com.ramz.locationtracker.utils.Constants;
@@ -182,7 +182,7 @@ public class BackgroundLocationService extends Service implements
         Log.d("debug", msg);
         // Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
 //        appendLog(DateFormat.getDateTimeInstance().format(new Date()) + ":" + msg, Constants.LOCATION_FILE);
-        RecuriterDb.getInstance(getApplicationContext()).insertData(id,location.getLatitude(),location.getLongitude());
+        LocationDb.getInstance(getApplicationContext()).insertData(id,location.getLatitude(),location.getLongitude());
    MainEventBus.getInstance().post(new LocationInfo(location.getLatitude(),location.getLongitude()));
     }
 
@@ -231,7 +231,7 @@ public class BackgroundLocationService extends Service implements
         // Turn off the request flag
         this.mInProgress = false;
         Log.i("yoo", "In onDestroy");
-        RecuriterDb.getInstance(getApplicationContext()).close();
+        LocationDb.getInstance(getApplicationContext()).close();
         if (this.servicesAvailable && this.mGoogleApiClient != null) {
             this.mGoogleApiClient.unregisterConnectionCallbacks(this);
             this.mGoogleApiClient.unregisterConnectionFailedListener(this);
@@ -336,7 +336,7 @@ public class BackgroundLocationService extends Service implements
                 notification);
         id=new AppPreferences(getApplicationContext(),Constants.APP_PACKAGE_NAME).getIntData(Constants._Id);
         id=id+1;
-        RecuriterDb.getInstance(getApplicationContext()).insertSpot(id);
+        LocationDb.getInstance(getApplicationContext()).insertSpot(id);
         new AppPreferences(getApplicationContext(),Constants.APP_PACKAGE_NAME).SaveIntData(Constants._Id,id);
 
     }

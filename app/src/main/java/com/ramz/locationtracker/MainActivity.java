@@ -1,7 +1,6 @@
 package com.ramz.locationtracker;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;

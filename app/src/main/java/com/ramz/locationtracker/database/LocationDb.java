@@ -16,8 +16,8 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 
-public class RecuriterDb extends SQLiteOpenHelper {
-    public RecuriterDb(Context context) {
+public class LocationDb extends SQLiteOpenHelper {
+    public LocationDb(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         // TODO Auto-generated constructor stub
     }
@@ -69,7 +69,6 @@ public class RecuriterDb extends SQLiteOpenHelper {
 
     }
     public void insertSpot(int id) {
-        Log.d("insertData","SUCESS");
         ContentValues cv = new ContentValues();
         cv.put(_ID, String.valueOf(id));
         db.insert(DATABASE_RECRUITER_ID_TABLE, null, cv);
@@ -152,13 +151,13 @@ if(data!=null)
             instance=null;
         }
     }
-    private static RecuriterDb instance;
+    private static LocationDb instance;
     private static SQLiteDatabase db;
 
 
-    public static synchronized RecuriterDb getInstance(Context context) {
+    public static synchronized LocationDb getInstance(Context context) {
         if (instance == null) {
-            instance = new RecuriterDb(context);
+            instance = new LocationDb(context);
             db = instance.getWritableDatabase();
 
         }

@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.ramz.locationtracker.database.RecuriterDb;
+import com.ramz.locationtracker.database.LocationDb;
 import com.ramz.locationtracker.services.BackgroundLocationService;
 
 import java.util.ArrayList;
@@ -30,12 +30,12 @@ public class GetLocationPoints extends AsyncTask<String,String,String> {
     protected String doInBackground(String... strings) {
         if(id!=null) {
             Log.d("over","going id");
-            points = RecuriterDb.getInstance(context).getLocationPoints(id);
+            points = LocationDb.getInstance(context).getLocationPoints(id);
 
         }
         else {
             Log.d("over","going spot");
-            spot= RecuriterDb.getInstance(context).getLocationData();
+            spot= LocationDb.getInstance(context).getLocationData();
         }
         return null;
     }
@@ -45,7 +45,7 @@ public class GetLocationPoints extends AsyncTask<String,String,String> {
         super.onPostExecute(s);
         if(!BackgroundLocationService.IS_SERVICE_RUNNING) {
             Log.d("db","closing");
-            RecuriterDb.getInstance(context).close();
+            LocationDb.getInstance(context).close();
         }
         Log.d("over","Yaaa"+points.size());
 
