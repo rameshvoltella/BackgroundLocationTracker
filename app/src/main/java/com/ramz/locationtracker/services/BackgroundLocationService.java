@@ -230,7 +230,7 @@ public class BackgroundLocationService extends Service implements
     public void onDestroy() {
         // Turn off the request flag
         this.mInProgress = false;
-        Log.i("yoo", "In onDestroy");
+        Log.i("service", "In onDestroy");
         LocationDb.getInstance(getApplicationContext()).close();
         if (this.servicesAvailable && this.mGoogleApiClient != null) {
             this.mGoogleApiClient.unregisterConnectionCallbacks(this);

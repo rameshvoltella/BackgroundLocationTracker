@@ -57,9 +57,7 @@ public class LocationDb extends SQLiteOpenHelper {
 
     // Insert data to table
     public void insertData(int id,double latitude,double longitude) {
-        Log.d("insertData","SUCESS"+id);
-        Log.d("insertData","latitude"+latitude);
-        Log.d("insertData","longitude"+longitude);
+
             ContentValues cv = new ContentValues();
             cv.put(_ID, String.valueOf(id));
             cv.put( _LATITUDE, String.valueOf(latitude));
@@ -94,7 +92,6 @@ public class LocationDb extends SQLiteOpenHelper {
     {
         ArrayList<LatLng>point=new ArrayList<>();
         Cursor cursor = db.rawQuery("SELECT * FROM " + DATABASE_RECRUITER_TABLE + " WHERE "+_ID+" = '"+id+"'", null);
-        Log.d("over","cursersiz"+cursor.getCount());
 
         while (cursor.moveToNext())
         {
@@ -102,7 +99,7 @@ public class LocationDb extends SQLiteOpenHelper {
                             .getColumnIndex( _LATITUDE)));
             double lng =Double.parseDouble(cursor.getString(cursor
                     .getColumnIndex(_LONGITUDE)));
-            Log.d("over","mdata.add(new LatLng("+lat+","+lng+"));");
+//            Log.d("over","mdata.add(new LatLng("+lat+","+lng+"));");
 
             point.add(new LatLng(lat,lng));
         }
@@ -110,39 +107,6 @@ public class LocationDb extends SQLiteOpenHelper {
         return point;
 
     }
-
-
-
-
-/*
-    public SignUpData listFavioriteData() {cursor.getString(cursor
-                    .getColumnIndex(LOGIN_COLOUM_INFO))
-
-
-        Cursor cursor = db.rawQuery("SELECT * FROM " + DATABASE_RECRUITER_TABLE + " ", null);
-        Log.d("SIZEE OF FAV",cursor.getCount()+">>>");
-        String data=null;
-        if(cursor.moveToNext())
-        {
-            data=cursor.getString(cursor
-                    .getColumnIndex(LOGIN_COLOUM_INFO));
-        }
-        cursor.close();
-//        Log.d("data",data);
-if(data!=null)
-{
-//    Gson gson=new Gson();
-    SignUpData element = new Gson().fromJson(data, SignUpData.class);
-    Log.d("data",""+element.candidateID);
-
-    return element;
-}
-
-        return null;
-    }
-*/
-
-
 
     @Override
     public synchronized void close() {
