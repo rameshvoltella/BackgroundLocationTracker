@@ -63,7 +63,7 @@ public class SpotAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHolder>  
         if (mainholder instanceof HomeViewHolder) {
 
             final HomeViewHolder holder = (HomeViewHolder) mainholder;
-            holder.companyNameTv.setText("Spot"+mData.get(position));
+            holder.companyNameTv.setText("Route No "+mData.get(position));
 
             }
 //            holder.companyNameTv.setText();

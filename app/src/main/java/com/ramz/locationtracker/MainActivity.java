@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements GetLocationPoints
             @Override
             public void onItemClick(View view, int position) {
 
-                startActivity(new Intent(getApplicationContext(), ShowRoot.class).putExtra(Constants._Id, spot.get(position)));
+                startActivity(new Intent(getApplicationContext(), ShowRouteActivity.class).putExtra(Constants._Id, spot.get(position)));
 
             }
 

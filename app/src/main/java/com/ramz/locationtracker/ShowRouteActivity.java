@@ -25,7 +25,7 @@ import java.util.ArrayList;
  * Created by munnaz on 29/4/17.
  */
 
-public class ShowRoot extends AppCompatActivity implements OnMapReadyCallback,
+public class ShowRouteActivity extends AppCompatActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener,GetLocationPoints.LocationPoints {

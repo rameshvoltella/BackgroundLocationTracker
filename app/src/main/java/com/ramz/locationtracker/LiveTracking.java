@@ -31,7 +31,8 @@ public class LiveTracking extends AppCompatActivity implements OnMapReadyCallbac
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
-GoogleMap googleMap;
+    GoogleMap googleMap;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,12 +40,11 @@ GoogleMap googleMap;
         ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMapAsync(this);
 
 
-
     }
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        
+
     }
 
     @Override
@@ -65,7 +65,7 @@ GoogleMap googleMap;
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        this.googleMap=googleMap;
+        this.googleMap = googleMap;
 
     }
 
@@ -74,29 +74,22 @@ GoogleMap googleMap;
     public void onResume() {
         super.onResume();
 //        mapView.onResume();
-        try{
+        try {
             MainEventBus.getInstance().register(this);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
 
         }
 
     }
 
 
-
-
-
     @Override
     public void onDestroy() {
         super.onDestroy();
 
-        try{
+        try {
             MainEventBus.getInstance().unregister(this);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
 
         }
     }
@@ -107,30 +100,28 @@ GoogleMap googleMap;
     }
 
 
-    boolean initialLoading=false;
+    boolean initialLoading = false;
+    PolylineOptions polylineOptions = new PolylineOptions();
 
     @Subscribe
-    public void getLocation( LocationInfo data)
-    {
-if(googleMap!=null) {
-    LatLng locationInfo=new LatLng(data.lat, data.lng);
-    if(!initialLoading)
-    {
-        initialLoading=true;
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locationInfo, 18));
+    public void getLocation(LocationInfo data) {
+        if (googleMap != null) {
+            LatLng locationInfo = new LatLng(data.lat, data.lng);
+            if (!initialLoading) {
+                initialLoading = true;
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locationInfo, 18));
 
-    }
+            }
 
-    googleMap.addMarker(new MarkerOptions()
-            .position(locationInfo)
-            .title("newLocation")
-            .icon(BitmapDescriptorFactory.fromResource(R.drawable.pin)));
-    PolylineOptions polylineOptions = new PolylineOptions();
-    polylineOptions.color(Color.BLUE);
-    polylineOptions.width(10);
-    polylineOptions.add(locationInfo);
-    googleMap.addPolyline(polylineOptions);
-}
+            googleMap.addMarker(new MarkerOptions()
+                    .position(locationInfo)
+                    .title("newLocation")
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.pin)));
+            polylineOptions.color(Color.BLUE);
+            polylineOptions.width(10);
+            polylineOptions.add(locationInfo);
+            googleMap.addPolyline(polylineOptions);
+        }
 
     }
 
