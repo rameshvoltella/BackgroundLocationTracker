@@ -149,7 +149,6 @@ public class BackgroundLocationService extends Service implements
             setUpLocationClientIfNeeded();
             if(!mGoogleApiClient.isConnected() || !mGoogleApiClient.isConnecting() && !mInProgress)
             {
-//                appendLog(DateFormat.getDateTimeInstance().format(new Date()) + ": Started", Constants.LOG_FILE);
                 mInProgress = true;
                 mGoogleApiClient.connect();
             }
@@ -179,9 +178,8 @@ public class BackgroundLocationService extends Service implements
         // Report to the UI that the location was updated
         String msg = Double.toString(location.getLatitude()) + "," +
                 Double.toString(location.getLongitude());
-        Log.d("debug", msg);
+        Log.d("location", msg);
         // Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-//        appendLog(DateFormat.getDateTimeInstance().format(new Date()) + ":" + msg, Constants.LOCATION_FILE);
         LocationDb.getInstance(getApplicationContext()).insertData(id,location.getLatitude(),location.getLongitude());
    MainEventBus.getInstance().post(new LocationInfo(location.getLatitude(),location.getLongitude()));
     }
@@ -191,40 +189,7 @@ public class BackgroundLocationService extends Service implements
         return mBinder;
     }
 
-    public String getTime() {
-        SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        return mDateFormat.format(new Date());
-    }
 
-    public void appendLog(String text, String filename)
-    {
-        File logFile = new File(filename);
-        if (!logFile.exists())
-        {
-            try
-            {
-                logFile.createNewFile();
-            }
-            catch (IOException e)
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
-        try
-        {
-            //BufferedWriter for performance, true to set append to file flag
-            BufferedWriter buf = new BufferedWriter(new FileWriter(logFile, true));
-            buf.append(text);
-            buf.newLine();
-            buf.close();
-        }
-        catch (IOException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
 
     @Override
     public void onDestroy() {
@@ -321,13 +286,13 @@ public class BackgroundLocationService extends Service implements
 
 
         Bitmap icon = BitmapFactory.decodeResource(getResources(),
-                R.mipmap.ic_launcher);
+                R.drawable.pin);
 
         Notification notification = new NotificationCompat.Builder(this)
                 .setContentTitle("Location app is running")
                 .setTicker("Location app is running")
                 .setContentText("Tracking....")
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.pin)
                 .setLargeIcon(Bitmap.createScaledBitmap(icon, 128, 128, false))
                 .setContentIntent(pendingIntent)
                 .setOngoing(true).build();

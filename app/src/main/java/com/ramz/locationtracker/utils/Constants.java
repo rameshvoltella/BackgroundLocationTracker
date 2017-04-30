@@ -1,5 +1,9 @@
 package com.ramz.locationtracker.utils;
 
+import android.graphics.Color;
+
+import com.ramz.locationtracker.R;
+
 public final class Constants {
 
     // Milliseconds per second
@@ -19,6 +23,15 @@ public final class Constants {
     public static final String RUNNING = "runningInBackground"; // Recording data in background
 
     public static final String APP_PACKAGE_NAME = "com.ramz.locationtracker";
+
+    public static final int FILL_COLOR = R.color.polylineFillColor ;
+    public static final int STROKE_COLOR = R.color.polylineStrokeColor;
+
+    public static final float POLYLINE_WIDTH_IN_PIXELS = 10;
+    public static final float POLYLINE_STROKE_WIDTH_IN_PIXELS = 2;
+    public static final int ANIMATE_COLOR  = Color.parseColor("#FFA7A6A6");;
+
+
     public interface ACTION {
         public static String STARTFOREGROUND_ACTION = "com.ramz.locationtracker.action.startforeground";
         public static String STOPFOREGROUND_ACTION = "com.ramz.locationtracker.action.stopforeground";

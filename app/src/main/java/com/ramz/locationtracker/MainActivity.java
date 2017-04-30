@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements GetLocationPoints
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         trackLocationBtn = (Button) findViewById(R.id.btn_info);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -244,7 +245,7 @@ public class MainActivity extends AppCompatActivity implements GetLocationPoints
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
 
         }
-        settingsrequest();
+        locationRequest();
 
     }
 
@@ -263,11 +264,7 @@ public class MainActivity extends AppCompatActivity implements GetLocationPoints
 
     }
 
-    public void settingsrequest() {
-//		LocationRequest locationRequest = LocationRequest.create();
-//		locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-//		locationRequest.setInterval(30 * 1000);
-//		locationRequest.setFastestInterval(5 * 1000);
+    public void locationRequest() {
 
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
                 .addLocationRequest(mLocationRequest);

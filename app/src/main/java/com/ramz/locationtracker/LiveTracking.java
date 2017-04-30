@@ -1,9 +1,9 @@
 package com.ramz.locationtracker;
 
-import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -16,10 +16,14 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.PolylineOptions;
 import com.ramz.locationtracker.model.LocationInfo;
+import com.ramz.locationtracker.utils.Constants;
 import com.ramz.locationtracker.utils.MainEventBus;
+import com.ramz.locationtracker.maputils.polyline.StrokedPolyline;
+import com.ramz.locationtracker.maputils.polyline.StrokedPolylineOptions;
 import com.squareup.otto.Subscribe;
+
+import java.util.List;
 
 
 /**
@@ -32,12 +36,16 @@ public class LiveTracking extends AppCompatActivity implements OnMapReadyCallbac
         LocationListener {
 
     GoogleMap googleMap;
+    boolean initialLoading = false;
+    private StrokedPolyline polyline;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMapAsync(this);
+
 
 
     }
@@ -73,7 +81,6 @@ public class LiveTracking extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onResume() {
         super.onResume();
-//        mapView.onResume();
         try {
             MainEventBus.getInstance().register(this);
         } catch (Exception e) {
@@ -100,9 +107,6 @@ public class LiveTracking extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
-    boolean initialLoading = false;
-    PolylineOptions polylineOptions = new PolylineOptions();
-
     @Subscribe
     public void getLocation(LocationInfo data) {
         if (googleMap != null) {
@@ -110,19 +114,35 @@ public class LiveTracking extends AppCompatActivity implements OnMapReadyCallbac
             if (!initialLoading) {
                 initialLoading = true;
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locationInfo, 18));
+                googleMap.addMarker(new MarkerOptions()
+                        .position(locationInfo)
+                        .title("start_point")
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.green_small_pin)));
+                ensurePolyline();
+
 
             }
 
-            googleMap.addMarker(new MarkerOptions()
-                    .position(locationInfo)
-                    .title("newLocation")
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.pin)));
-            polylineOptions.color(Color.BLUE);
-            polylineOptions.width(10);
-            polylineOptions.add(locationInfo);
-            googleMap.addPolyline(polylineOptions);
+            List<LatLng> points = polyline.getPoints();
+            points.add(locationInfo);
+            polyline.setPoints(points);
         }
 
+    }
+    private void ensurePolyline() {
+        if (polyline != null) {
+            return;
+        }
+
+        int fillColor = ContextCompat.getColor(this, Constants.FILL_COLOR);
+        int strokeColor = ContextCompat.getColor(this, Constants.STROKE_COLOR);
+
+        StrokedPolylineOptions polylineOptions = new StrokedPolylineOptions()
+                .width(Constants.POLYLINE_WIDTH_IN_PIXELS)
+                .fillColor(fillColor)
+                .strokeColor(strokeColor)
+                .strokeWidth(Constants.POLYLINE_STROKE_WIDTH_IN_PIXELS);
+        polyline = polylineOptions.addPolylineTo(googleMap);
     }
 
 }
