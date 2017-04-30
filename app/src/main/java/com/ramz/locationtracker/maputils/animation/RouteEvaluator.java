@@ -4,9 +4,6 @@ import android.animation.TypeEvaluator;
 
 import com.google.android.gms.maps.model.LatLng;
 
-/**
- * Created by amal.chandran on 22/12/16.
- */
 
 public class RouteEvaluator implements TypeEvaluator<LatLng> {
     @Override
