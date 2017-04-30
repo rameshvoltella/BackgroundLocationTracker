@@ -135,7 +135,8 @@ public class ShowRouteActivity extends AppCompatActivity implements OnMapReadyCa
         }
         else
         {
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(points.get(0), 18));
+            if(pointsData.size()>0)
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pointsData.get(0), 18));
         }
 
          /*

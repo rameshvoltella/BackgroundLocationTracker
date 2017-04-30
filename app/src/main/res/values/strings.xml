@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Location Tracker</string>
-    <string name="google_maps_key">YOUR KEY HERE</string>
+    <string name="google_maps_key">YOUR API KEY HERE</string>
 
 </resources>
